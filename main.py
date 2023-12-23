@@ -7,7 +7,7 @@ testImg = currDir + "/mamsch.png"
 
 while(True):
     try:
-        Ones_list = list(pyautogui.locateAllOnScreen(testImg, confidence=0.87))
+        Ones_list = list(pyautogui.locateAllOnScreen(testImg, confidence=0.85))
         if(len(Ones_list) != 0):
             x = str(len(Ones_list))
             print(x + " Ones found:")
