@@ -3,11 +3,11 @@ import pyautogui
 import time
 
 currDir = os.getcwd()
-testImg = currDir + "/mamsch.png"
+imgDir = currDir + "/img/"
 
 while(True):
     try:
-        Ones_list = list(pyautogui.locateAllOnScreen(testImg, confidence=0.85))
+        Ones_list = list(pyautogui.locateAllOnScreen(imgDir + "/x.png", confidence=0.9))
         if(len(Ones_list) != 0):
             x = str(len(Ones_list))
             print(x + " Ones found:")
