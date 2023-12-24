@@ -19,7 +19,7 @@ while(True):
     
     for img in images:
         try:
-            found = list(pyautogui.locateAllOnScreen(imgDir + img, confidence=0.9))
+            found = list(pyautogui.locateAllOnScreen(imgDir + img, confidence = 0.9))
             if(len(found) == 0): continue
             for box in found:
                 if(box[0] > newRight):
