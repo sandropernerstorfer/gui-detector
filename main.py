@@ -2,37 +2,40 @@ import os
 import pyautogui
 import time
 
-currDir = os.getcwd()
-imgDir = currDir + "/img/"
+# !! for testing
+activeMonitor = input("LG or TUX?\n")
 
-# get ./img contents and sort out non-png files
-images = os.listdir("img")
+cwd = os.getcwd()
+imgDir = cwd + "/img/" + activeMonitor + "/"
+
+# get .png's from ./img
+images = os.listdir(imgDir)
 for img in images[:]:
     if not(img.endswith(".png")):
         images.remove(img)
+if(len(images) == 0):
+    print("Missing .png image samples in \"img\" folder")
+    exit()
 
-# memory of latest detected occurence position
-furthestRight = 0
+# memory of latest detected occurence - furthest right position
+latestScanRight = 0
 
 while(True):
-    newRight = 0
+    
+    currScanRight = 0
     
     for img in images:
         try:
             found = list(pyautogui.locateAllOnScreen(imgDir + img, confidence = 0.9))
             if(len(found) == 0): continue
             for box in found:
-                if(box[0] > newRight):
-                    newRight = box[0]
+                if(box[0] > currScanRight):
+                    currScanRight = box[0]
         except:
             pass
 
-    if(newRight > furthestRight):
-        print("Send Notification!")
-    furthestRight = newRight
-    time.sleep(1)
+    if(currScanRight > latestScanRight):
+        print("Email/SMS notification!")
+    latestScanRight = currScanRight
 
-# CLI schöner machen - clear all
-# uhrzeit usw dazu wenn nachricht - und in liste speichern - immer oben anzeigen
-# sonst während runtime eine art lade animation mit punkten usw
-# btn zum beenden
+    time.sleep(1.5)
