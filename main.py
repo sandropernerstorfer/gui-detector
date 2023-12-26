@@ -1,12 +1,19 @@
 import os
 import pyautogui
 import time
+import console
+
+class NotificationEntry:
+    def __init__(self, dateTime, gotSent):
+        self.dateTime = dateTime
+        self.gotSent = gotSent
 
 # !! for testing
 activeMonitor = input("LG or TUX?\n")
 
 cwd = os.getcwd()
 imgDir = cwd + "/img/" + activeMonitor + "/"
+notifications = []
 
 # get .png's from ./img
 images = os.listdir(imgDir)
@@ -21,9 +28,7 @@ if(len(images) == 0):
 latestScanRight = 0
 
 while(True):
-    
     currScanRight = 0
-    
     for img in images:
         try:
             found = list(pyautogui.locateAllOnScreen(imgDir + img, confidence = 0.9))
@@ -33,9 +38,16 @@ while(True):
                     currScanRight = box[0]
         except:
             pass
-
+    
+    # notification handling 
     if(currScanRight > latestScanRight):
-        print("Email/SMS notification!")
+        entry = NotificationEntry(time.strftime("%d-%m-%Y %H:%M:%S", time.localtime()), False)
+        #
+        # TODO EMAIL/SMS
+        #
+        notifications.append(entry)
+    console.drawView(notifications)
+    
+    # update detection position and timeout
     latestScanRight = currScanRight
-
     time.sleep(1.5)
