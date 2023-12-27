@@ -4,7 +4,7 @@ $srcDir   = "$mainDir/src"
 $tempDir  = "$mainDir/src-temp"
 $distDir  = "$mainDir/src-temp/dist"
 $exeCMD   = "pyinstaller --onefile main.py"
-$appName  = "Trading Detector"
+$appName  = "trading-detector"
 
 # create temp dir + files
 Copy-Item -Path $srcDir -Destination $tempDir -Recurse
