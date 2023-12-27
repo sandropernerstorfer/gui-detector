@@ -4,7 +4,14 @@ from sys import stdout
 def getImagePaths():
     while(True):
         imgDir = getcwd() + "/img/"
-        files = listdir(imgDir)
+        try:
+            files = listdir(imgDir)
+        except:
+            stdout.write('\x1b[1A') 
+            stdout.write('\x1b[2K')
+            input("Create \"img\" folder next to your .exe then press enter.")
+            continue
+            
         paths = []
         for file in files[:]:
             if file.endswith(".png"):
@@ -18,6 +25,9 @@ def getImagePaths():
     return paths
 
 def sendEmail():
-    # err    = return False
-    # no err = return True
+    # err   = return False
+    # noerr = return True
+    # email spam guard - zb "Held Back" status wenn in zu kurzem zeitabstand
+    # mit aws lambda testen
+
     return False
