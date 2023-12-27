@@ -12,6 +12,9 @@ def coloredText(color, text):
     else                  : color = "0"
     return "\033["+color+"m"+text+"\033[0m"
 
+def clearConsole():
+    system('cls' if name == 'nt' else 'clear')
+
 def dotGenerator():
     count = 1
     while True:
@@ -21,10 +24,9 @@ def dotGenerator():
 dots = dotGenerator()
 
 def drawView(detections):
-    system('cls' if name == 'nt' else 'clear')
-    print("[" + coloredText("cyan", "P") + "]ause/Resume    [" + coloredText("cyan", "Q") + "]uit")
+    clearConsole()
     print("\n" + coloredText("cyan", "~") + " Scanning" + next(dots) + "\n")
-    print("CHoCH Detections      |   " + "Email")
+    print("Detections            |   " + "Email")
     print("-------------------------------------")
     for el in detections:
         status = coloredText("green", "Sent") if el.gotSent else coloredText("red", "Failed")
