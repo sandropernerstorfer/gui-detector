@@ -69,11 +69,12 @@ def main():
             stdout.write('\x1b[2K')
             input("Missing .png image samples in \"img\" folder. Add images and press enter.")
     
-    # runtime globals
+    # runtime vars
     latestScanRight = 0
     detections = []
     lastEmailSent = datetime.now()
-    # email details
+    
+    # email vars
     sender   = "placeholder"
     password = "placeholder"
     receiver = "placeholder"
@@ -85,6 +86,7 @@ def main():
     em['subject'] = subject
     em.set_content(body)
     
+    # scanner
     while(True):
                 
         currScanRight = 0
