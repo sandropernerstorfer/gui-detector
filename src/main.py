@@ -48,6 +48,18 @@ def drawView(detections):
 #
 def main():
     
+    # testmode
+    testMode = False
+    for file in listdir(getcwd())[:]:
+        if file.startswith("testing"):
+            testMode = True
+            clearConsole()
+            print("INFO:")
+            print(coloredText("cyan", "*") + " app is in testing-mode")
+            print(coloredText("cyan", "*") + " email sending will be simulated")
+            sleep(6)
+            break
+    
     # get images
     imagePaths = []
     while(True):
@@ -69,7 +81,7 @@ def main():
             stdout.write('\x1b[2K')
             input("Missing .png image samples in \"img\" folder. Add images and press enter.")
     
-    # runtime vars
+    # scanner vars
     latestScanRight = 0
     detections = []
     lastEmailSent = datetime.now()
@@ -86,7 +98,7 @@ def main():
     em['subject'] = subject
     em.set_content(body)
     
-    # scanner
+    # scanner & email
     while(True):
                 
         currScanRight = 0
@@ -111,11 +123,12 @@ def main():
                 sendStatus = ["yellow", "Hold"]
             else:
                 try:
-                    context = ssl.create_default_context()
-                    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-                        smtp.login(sender, password)
-                        smtp.sendmail(sender, receiver, em.as_string())
-                    
+                    if not testMode:
+                        context = ssl.create_default_context()
+                        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+                            smtp.login(sender, password)
+                            smtp.sendmail(sender, receiver, em.as_string())
+
                     lastEmailSent = now
                     sendStatus = ["green", "Sent"]
                 except:
@@ -125,7 +138,7 @@ def main():
 
         drawView(detections)
         latestScanRight = currScanRight
-        sleep(.7)
+        sleep(.8)
 
 #
 # start main
