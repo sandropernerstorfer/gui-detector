@@ -22,6 +22,9 @@ catch {
 	Exit
 }
 
+# back to cwd
+Set-Location $mainDir
+
 # rename .exe and move into /app
 Rename-Item -Path "$distDir\main.exe" -NewName "$appName.exe"
 New-Item -Path $deskDir -Name "trading-detector" -ItemType "directory"
@@ -31,6 +34,3 @@ Copy-Item -Path "$distDir\$appName.exe" -Destination "$deskDir\trading-detector\
 # remove temp dir
 Get-ChildItem -Path $tempDir -Recurse | Remove-Item -force -recurse
 Remove-Item $tempDir -Force
-
-# back to cwd
-Set-Location $mainDir
