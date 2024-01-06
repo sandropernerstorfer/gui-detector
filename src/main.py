@@ -2,7 +2,6 @@ from time import strftime, localtime, sleep
 from datetime import datetime, timedelta
 from pyautogui import locateAllOnScreen
 from os import getcwd, listdir, system, name
-from sys import stdout
 from email.message import EmailMessage
 import ssl
 import smtplib
@@ -63,12 +62,11 @@ def main():
     # get images
     imagePaths = []
     while(True):
+        clearConsole()
         imgDir = getcwd() + "/img/"
         try:
             files = listdir(imgDir)
         except:
-            stdout.write('\x1b[1A') 
-            stdout.write('\x1b[2K')
             input("Create \"img\" folder next to your .exe then press enter.")
             continue
         for file in files[:]:
@@ -77,8 +75,6 @@ def main():
         if len(imagePaths) > 0:
             break
         else:
-            stdout.write('\x1b[1A') 
-            stdout.write('\x1b[2K')
             input("Missing .png image samples in \"img\" folder. Add images and press enter.")
     
     # scanner vars
