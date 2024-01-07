@@ -11,22 +11,16 @@ $appName  = "trading-detector"
 Copy-Item -Path $srcDir -Destination $tempDir -Recurse
 
 # go to temp dir and run build command
-try {
-	Set-Location $tempDir
-	Invoke-Expression $exeCMD
-}
-catch {
-	Write-Host
-	"Error: build failed"
-	Start-Sleep -s 3
-	Exit
-}
+Set-Location $tempDir
+Invoke-Expression $exeCMD
 
 # back to cwd
 Set-Location $mainDir
 
-# rename .exe and move into /app
+# rename .exe
 Rename-Item -Path "$distDir\main.exe" -NewName "$appName.exe"
+
+# create dir on desktop populate with /img & .exe
 New-Item -Path $deskDir -Name "trading-detector" -ItemType "directory"
 New-Item -Path "$deskDir\trading-detector\" -Name "img" -ItemType "directory"
 Copy-Item -Path "$distDir\$appName.exe" -Destination "$deskDir\trading-detector\"
