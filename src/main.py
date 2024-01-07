@@ -7,7 +7,7 @@ import ssl
 import smtplib
 
 #
-#  view utils
+# view utils
 # 
 class DetectionEntry:
     def __init__(self, dateTime, gotSent):
