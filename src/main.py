@@ -1,8 +1,8 @@
-from time import strftime, localtime, sleep
 from datetime import datetime, timedelta
-from pyautogui import locateAllOnScreen
-from os import getcwd, listdir, system, name
-from email.message import EmailMessage
+import time
+import pyautogui
+import os
+import email.message
 import ssl
 import smtplib
 
@@ -10,8 +10,8 @@ import smtplib
 # view utils
 # 
 class DetectionEntry:
-    def __init__(self, dateTime, gotSent):
-        self.dateTime = dateTime
+    def __init__(self, timestamp, gotSent):
+        self.timestamp = timestamp
         self.gotSent = gotSent
 
 def coloredText(color, text):
@@ -23,7 +23,7 @@ def coloredText(color, text):
     return "\033["+color+"m"+text+"\033[0m"
 
 def clearConsole():
-    system('cls' if name == 'nt' else 'clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def dotGenerator():
     count = 1
@@ -40,7 +40,7 @@ def drawView(detections):
     print("-------------------------------------")
     for el in detections:
         status = coloredText(el.gotSent[0], el.gotSent[1])
-        print(el.dateTime + "   |   " + status)
+        print(el.timestamp + "   |   " + status)
         
 #
 # program
@@ -49,23 +49,23 @@ def main():
     
     # testmode
     testMode = False
-    for file in listdir(getcwd())[:]:
+    for file in os.listdir(os.getcwd())[:]:
         if file.startswith("testing"):
             testMode = True
             clearConsole()
             print("INFO:")
             print(coloredText("cyan", "*") + " app is in testing-mode")
             print(coloredText("cyan", "*") + " email sending will be simulated")
-            sleep(6)
+            time.sleep(6)
             break
     
     # get images
     imagePaths = []
     while(True):
         clearConsole()
-        imgDir = getcwd() + "/img/"
+        imgDir = os.getcwd() + "/img/"
         try:
-            files = listdir(imgDir)
+            files = os.listdir(imgDir)
         except:
             input("Create \"img\" folder next to your .exe then press enter.")
             continue
@@ -88,7 +88,7 @@ def main():
     receiver = "placeholder"
     subject  = "CHoCH-Detection"
     body     = "TradingView CHoCH Detection."
-    em = EmailMessage()
+    em = email.message.EmailMessage()
     em['From'] = sender
     em['To'] = receiver
     em['subject'] = subject
@@ -101,7 +101,7 @@ def main():
         
         for img in imagePaths:
             try:
-                found = list(locateAllOnScreen(img, confidence = 0.9))
+                found = list(pyautogui.locateAllOnScreen(img, confidence = 0.9))
                 if len(found) == 0: continue
                 for box in found:
                     if box[0] > currScanRight:
@@ -130,11 +130,11 @@ def main():
                 except:
                     sendStatus = ["red", "Failed"]
             
-            detections.append(DetectionEntry(strftime("%d-%m-%Y %H:%M:%S", localtime()), sendStatus))
+            detections.append(DetectionEntry(time.strftime("%d-%m-%Y %H:%M:%S", time.localtime()), sendStatus))
 
         drawView(detections)
         latestScanRight = currScanRight
-        sleep(.8)
+        time.sleep(.8)
 
 #
 # start main
