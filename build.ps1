@@ -1,5 +1,4 @@
 # save needed directory paths
-$deskDir  = [Environment]::GetFolderPath(“Desktop”) 
 $mainDir  = Split-Path $MyInvocation.MyCommand.Path -Parent
 $srcDir   = "$mainDir/src"
 $tempDir  = "$mainDir/src-temp"
@@ -20,10 +19,8 @@ Set-Location $mainDir
 # rename .exe
 Rename-Item -Path "$distDir\main.exe" -NewName "$appName.exe"
 
-# create dir on desktop populate with /img & .exe
-New-Item -Path $deskDir -Name $appName -ItemType "directory"
-New-Item -Path "$deskDir\$appName\" -Name "img" -ItemType "directory"
-Copy-Item -Path "$distDir\$appName.exe" -Destination "$deskDir\$appName\"
+# move new .exe into /app
+Copy-Item -Path "$distDir\$appName.exe" -Destination "$mainDir\app\"
 
 # remove temp dir
 Get-ChildItem -Path $tempDir -Recurse | Remove-Item -force -recurse
