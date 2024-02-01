@@ -86,8 +86,8 @@ def main():
     sender   = "placeholder"
     password = "placeholder"
     receiver = "placeholder"
-    subject  = "CHoCH-Detection"
-    body     = "TradingView CHoCH Detection."
+    subject  = "Chart Detection"
+    body     = "CHoCH detected."
     em = email.message.EmailMessage()
     em['From'] = sender
     em['To'] = receiver
